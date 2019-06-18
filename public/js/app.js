@@ -1494,7 +1494,7 @@ module.exports = function spread(callback) {
 
 
 var bind = __webpack_require__(/*! ./helpers/bind */ "./node_modules/axios/lib/helpers/bind.js");
-var isBuffer = __webpack_require__(/*! is-buffer */ "./node_modules/axios/node_modules/is-buffer/index.js");
+var isBuffer = __webpack_require__(/*! is-buffer */ "./node_modules/is-buffer/index.js");
 
 /*global toString:true*/
 
@@ -1829,28 +1829,6 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/axios/node_modules/is-buffer/index.js":
-/*!************************************************************!*\
-  !*** ./node_modules/axios/node_modules/is-buffer/index.js ***!
-  \************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-/*!
- * Determine if an object is a Buffer
- *
- * @author   Feross Aboukhadijeh <https://feross.org>
- * @license  MIT
- */
-
-module.exports = function isBuffer (obj) {
-  return obj != null && obj.constructor != null &&
-    typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
-}
-
-
-/***/ }),
-
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Screen1.vue?vue&type=script&lang=js&":
 /*!******************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Screen1.vue?vue&type=script&lang=js& ***!
@@ -1882,7 +1860,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$router.push('/alcohol');
     },
     goToSoft: function goToSoft() {
-      this.$router.push('/softs');
+      this.$router.push('/soft');
     }
   }
 });
@@ -1947,6 +1925,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -1964,40 +1947,40 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      softs: [{
-        "id": 1,
-        "name": "Coca-Cola"
-      }, {
-        "id": 2,
-        "name": "Eau Plate"
-      }, {
-        "id": 3,
-        "name": "Jus d'Orange"
-      }, {
-        "id": 4,
-        "name": "Jus de Pomme"
-      }, {
-        "id": 5,
-        "name": "Jus d'Ananas"
-      }, {
-        "id": 6,
-        "name": "Eau Gazeuze"
-      }, {
-        "id": 7,
-        "name": "Red Bull"
-      }, {
-        "id": 8,
-        "name": "Orangina"
-      }]
-    };
+  // data() {
+  //     return {
+  //         softs: [{"id":1,"name":"Coca-Cola"},{"id":2,"name":"Eau Plate"},{"id":3,"name":"Jus d'Orange"},{"id":4,"name":"Jus de Pomme"},{"id":5,"name":"Jus d'Ananas"},{"id":6,"name":"Eau Gazeuze"},{"id":7,"name":"Red Bull"},{"id":8,"name":"Orangina"}]
+  //     }
+  // },
+  // methods: {
+  //     goToThankYou() {
+  //         this.$store.dispatch('sendToRobot').then(res => {
+  //             console.log('go to thank-you')
+  //         }, err => {
+  //             console.debug(err)
+  //         })
+  //     }
+  // }
+  mounted: function mounted() {
+    this.$store.dispatch('loadSofts');
   },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
+    'softs': 'softs'
+  })),
   methods: {
+    setSoft: function setSoft(soft) {
+      this.$store.commit('setSoft', soft);
+      this.goToThankYou();
+    },
     goToThankYou: function goToThankYou() {
+      var _this = this;
+
       this.$store.dispatch('sendToRobot').then(function (res) {
         console.log('go to thank-you');
+
+        _this.$router.push('/thank-you');
       }, function (err) {
         console.debug(err);
       });
@@ -6645,6 +6628,28 @@ function toComment(sourceMap) {
 	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
 
 	return '/*# ' + data + ' */';
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/is-buffer/index.js":
+/*!*****************************************!*\
+  !*** ./node_modules/is-buffer/index.js ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/*!
+ * Determine if an object is a Buffer
+ *
+ * @author   Feross Aboukhadijeh <https://feross.org>
+ * @license  MIT
+ */
+
+module.exports = function isBuffer (obj) {
+  return obj != null && obj.constructor != null &&
+    typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
 }
 
 
@@ -38268,7 +38273,7 @@ var render = function() {
                 on: {
                   click: function($event) {
                     $event.preventDefault()
-                    return _vm.goToThankYou($event)
+                    return _vm.setSoft(soft.id)
                   }
                 }
               },
@@ -54546,14 +54551,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!*********************************************!*\
   !*** ./resources/js/components/Screen3.vue ***!
   \*********************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Screen3_vue_vue_type_template_id_5b1d09a8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Screen3.vue?vue&type=template&id=5b1d09a8& */ "./resources/js/components/Screen3.vue?vue&type=template&id=5b1d09a8&");
 /* harmony import */ var _Screen3_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Screen3.vue?vue&type=script&lang=js& */ "./resources/js/components/Screen3.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _Screen3_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Screen3.vue?vue&type=style&index=0&lang=scss& */ "./resources/js/components/Screen3.vue?vue&type=style&index=0&lang=scss&");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Screen3_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Screen3_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _Screen3_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Screen3.vue?vue&type=style&index=0&lang=scss& */ "./resources/js/components/Screen3.vue?vue&type=style&index=0&lang=scss&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -54585,7 +54591,7 @@ component.options.__file = "resources/js/components/Screen3.vue"
 /*!**********************************************************************!*\
   !*** ./resources/js/components/Screen3.vue?vue&type=script&lang=js& ***!
   \**********************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -54762,7 +54768,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: {
     alcohol: undefined,
-    alcohols: []
+    alcohols: [],
+    soft: undefined,
+    softs: []
   },
   mutations: {
     setAlcohol: function setAlcohol(state, alcohol) {
@@ -54770,6 +54778,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     setAlcohols: function setAlcohols(state, alcohols) {
       state.alcohols = alcohols;
+    },
+    setSoft: function setSoft(state, soft) {
+      state.soft = soft;
+    },
+    setSofts: function setSofts(state, softs) {
+      state.softs = softs;
     }
   },
   actions: {
@@ -54778,11 +54792,16 @@ __webpack_require__.r(__webpack_exports__);
         context.commit('setAlcohols', res.data);
       });
     },
+    loadSofts: function loadSofts(context) {
+      axios.get('/softs').then(function (res) {
+        context.commit('setSofts', res.data);
+      });
+    },
     sendToRobot: function sendToRobot(_ref) {
       var state = _ref.state;
       return axios.post('/order/post', {
         alcohol: state.alcohol,
-        soft: undefined
+        soft: state.soft
       });
     }
   },
@@ -54792,6 +54811,12 @@ __webpack_require__.r(__webpack_exports__);
     },
     alcohols: function alcohols(state) {
       return state.alcohols;
+    },
+    soft: function soft(state) {
+      return state.soft;
+    },
+    softs: function softs(state) {
+      return state.softs;
     }
   }
 });
@@ -54816,8 +54841,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\vscode-project\partiel\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\vscode-project\partiel\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/paulcuvillier/Desktop/S4A/Javascript/A413-Partiel/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/paulcuvillier/Desktop/S4A/Javascript/A413-Partiel/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
